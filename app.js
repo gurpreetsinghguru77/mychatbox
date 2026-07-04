@@ -180,6 +180,22 @@ setInterval(async () => {
   }
 }, 3600000); // Run every 1 hour
 
+// Basic Authentication Middleware for Dashboard Security
+app.use((req, res, next) => {
+  // If it's the media path, let it pass (or you can protect it too, but media is usually needed by the frontend)
+  if (req.path.startsWith('/media')) return next();
+  
+  const b64auth = (req.headers.authorization || '').split(' ')[1] || '';
+  const [login, password] = Buffer.from(b64auth, 'base64').toString().split(':');
+
+  if (login === 'Gurpreet SINGH' && password === 'Gurpreet 123@') {
+    return next();
+  }
+
+  res.set('WWW-Authenticate', 'Basic realm="401"');
+  res.status(401).send('Authentication required.');
+});
+
 // Initialize Express status dashboard
 app.get('/', (req, res) => {
   res.send(`
