@@ -283,13 +283,18 @@ app.listen(PORT, () => {
   console.log(`[EXPRESS] Status server running on http://localhost:${PORT}`);
 });
 
+const { Client, RemoteAuth, MessageMedia } = pkg;
+
 
 // Initialize WhatsApp Web Client
-console.log('[WHATSAPP] Initializing client with LocalAuth...');
+console.log('[WHATSAPP] Initializing client with RemoteAuth (Postgres)...');
+const store = new PgStore({ pool: Database.pool });
 
 const client = new Client({
-  authStrategy: new LocalAuth({
-    clientId: 'MainSession'
+  authStrategy: new RemoteAuth({
+    clientId: 'MainSession',
+    store: store,
+    backupSyncIntervalMs: 60000 // Backup session to Postgres every 1 minute
   }),
   puppeteer: {
     executablePath: process.env.PUPPETEER_EXECUTABLE_PATH || (process.platform === 'win32' ? 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe' : '/usr/bin/google-chrome-stable'),
