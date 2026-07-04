@@ -41,7 +41,7 @@ const __dirname = path.dirname(__filename);
 
 const SQLiteStore = ConnectSqlite3(session);
 
-const { Client, RemoteAuth, MessageMedia } = pkg;
+const { Client, LocalAuth, MessageMedia } = pkg;
 import { PgStore } from './pgAuthStore.js';
 
 // Load environment variables
@@ -283,7 +283,6 @@ app.listen(PORT, () => {
   console.log(`[EXPRESS] Status server running on http://localhost:${PORT}`);
 });
 
-const { Client, LocalAuth, MessageMedia } = pkg;
 
 // Initialize WhatsApp Web Client
 console.log('[WHATSAPP] Initializing client with LocalAuth...');
