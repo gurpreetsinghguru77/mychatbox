@@ -398,7 +398,12 @@ client.on('ready', () => {
   console.log('\n=============================================');
   console.log('  [SUCCESS] WhatsApp AI Assistant is READY!  ');
   console.log('=============================================\n');
-  preloadRecentChats().catch(console.error);
+  
+  // Delay preloading by 60 seconds to allow RemoteAuth to safely zip and upload the session
+  // to Postgres without hitting Render's 512MB RAM limit.
+  setTimeout(() => {
+    preloadRecentChats().catch(console.error);
+  }, 60000);
 });
 
 // Helper to process and deliver AI replies (handles auto-switcher commands)
