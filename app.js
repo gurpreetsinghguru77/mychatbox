@@ -297,7 +297,7 @@ const client = new Client({
     backupSyncIntervalMs: 60000 // Backup session to Postgres every 1 minute
   }),
   puppeteer: {
-    executablePath: process.env.PUPPETEER_EXECUTABLE_PATH || (process.platform === 'win32' ? 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe' : '/usr/bin/google-chrome-stable'),
+    executablePath: process.env.PUPPETEER_EXECUTABLE_PATH || (process.platform === 'win32' ? 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe' : undefined),
     headless: true, // Runs in the background
     args: [
       '--no-sandbox',
